@@ -1,5 +1,6 @@
 package com.example.cartservice.controller;
 
+import com.example.cartservice.dto.CartItemResponse;
 import com.example.cartservice.model.CartItem;
 import com.example.cartservice.service.CartService;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class CartController {
     }
 
     @GetMapping("/{userId}")
-    public List<CartItem> getCart(@PathVariable String userId) {
+    public List<CartItemResponse> getCart(@PathVariable String userId) {
         return service.getCartByUserId(userId);
     }
 
