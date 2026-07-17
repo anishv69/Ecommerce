@@ -10,14 +10,15 @@ spring:
         webmvc:
           routes:
             - id: product-service
-              uri: http://localhost:8081
+              uri: lb://product-service
               predicates:
                 - Path=/api/products/**
             - id: cart-service
-              uri: http://localhost:8082
+              uri: lb://cart-service
               predicates:
                 - Path=/api/cart/**
 
-logging:
-  level:
-    org.springframework.cloud.gateway: TRACE
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
