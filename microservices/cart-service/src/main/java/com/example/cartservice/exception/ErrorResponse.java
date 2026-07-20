@@ -1,0 +1,12 @@
+package com.example.cartservice.exception;
+
+import lombok.*;
+import java.time.LocalDateTime;
+
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+public class ErrorResponse {
+    private int status;
+    private String message;
+    private LocalDateTime timestamp;
+}
