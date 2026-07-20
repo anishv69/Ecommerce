@@ -23,12 +23,18 @@ public class JwtUtil {
     }
 
     public String generateToken(String username) {
-        return Jwts.builder()
-                .subject(username)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSigningKey())
-                .compact();
+        try {
+            return Jwts.builder()
+                    .subject(username)
+                    .issuedAt(new Date())
+                    .expiration(new Date(System.currentTimeMillis() + expiration))
+                    .signWith(getSigningKey())
+                    .compact();
+        } catch (Exception e) {
+            System.out.println("JWT ERROR: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public String extractUsername(String token) {
