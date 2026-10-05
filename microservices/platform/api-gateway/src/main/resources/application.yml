@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: product-service
+              uri: ${PRODUCT_SERVICE_URI:lb://product-service}
+              predicates:
+                - Path=/api/products/**
+            - id: cart-service
+              uri: ${CART_SERVICE_URI:lb://cart-service}
+              predicates:
+                - Path=/api/cart/**
+            - id: auth-service
+              uri: ${AUTH_SERVICE_URI:lb://auth-service}
+              predicates:
+                - Path=/api/auth/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
+    initial-instance-info-replication-interval-seconds: 5
+    registry-fetch-interval-seconds: 5
+  instance:
+    prefer-ip-address: true

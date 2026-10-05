@@ -41,7 +41,27 @@ public class CartService {
         }).toList();
     }
 
+    @Transactional
     public CartItem addItem(CartItem item) {
+        int quantityToAdd = Math.max(item.getQuantity(), 1);
+        List<CartItem> existingItems = repository.findByUserIdAndProductId(item.getUserId(), item.getProductId());
+
+        if (!existingItems.isEmpty()) {
+            CartItem existingItem = existingItems.get(0);
+            int existingQuantity = existingItems.stream()
+                    .mapToInt(cartItem -> Math.max(cartItem.getQuantity(), 0))
+                    .sum();
+            existingItem.setQuantity(existingQuantity + quantityToAdd);
+
+            if (existingItems.size() > 1) {
+                repository.deleteAll(existingItems.subList(1, existingItems.size()));
+            }
+
+            return repository.save(existingItem);
+        }
+
+        item.setId(null);
+        item.setQuantity(quantityToAdd);
         return repository.save(item);
     }
 

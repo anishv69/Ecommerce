@@ -17,6 +17,16 @@ public class CartController {
         this.service = service;
     }
 
+    @GetMapping("/health")
+    public String health() {
+        return "Cart service is working";
+    }
+
+    @GetMapping("/readiness")
+    public String readiness() {
+        return "Cart service is ready";
+    }
+
     @GetMapping("/{userId}")
     public List<CartItemResponse> getCart(@PathVariable String userId) {
         return service.getCartByUserId(userId);
@@ -24,6 +34,7 @@ public class CartController {
 
     @PostMapping
     public CartItem addItem(@RequestBody CartItem item) {
+
         return service.addItem(item);
     }
 
